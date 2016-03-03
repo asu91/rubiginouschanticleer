@@ -1,0 +1,36 @@
+<div id="movieInput">
+  
+  <!-- Search Bar Form -->
+  <div class="searchBar">
+    <h2> Pick up to 5 movies to vote on </h2>
+    
+    <form class="searchBarForm">
+      <input type="text" ng-model="movieTitle" ng-model-options="{debounce: 400}" placeholder="Enter Full Movie Title">
+      <button type="button" ng-click="fetchSearch();"> SEARCH </button> <br/>
+      <h3> Click to select </h3>
+    </form>
+  </div>
+
+  <!-- Show Search Results -->
+  <div class="searchResults">
+    <div ng-model="searchResults" ng-repeat="movie in searchResults" ng-click="updateMovies(true, movie)">
+      {{movie.Title}}
+    </div>
+  </div>
+
+  <!-- Show Added Movies -->
+  <div class="movieChoices">
+    <h3> Movie Picks (click to remove) </h3>
+
+    <!-- ng-repeat to show all movies -->
+    <div ng-repeat="movie in movieChoices track by $index" ng-model="movieChoices" ng-click="updateMovies(false, $index)">
+      {{movie.Title}}
+    </div > <br> 
+
+    <!-- shows error if > 5 movies chosen -->
+    <p style="color:red"> 
+      {{error}}
+    </p>
+  </div>
+
+</div>
