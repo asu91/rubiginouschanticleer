@@ -32,14 +32,14 @@ angular.module( 'moviematch.lobby', ['ngRoute'] )
       }
     }
   })
-
   $scope.startSession = function( sessionName ) {
     console.log(sessionName, 'session!!!!!!!!!!!!!!!!!!!')
-    Socket.emit( 'startSession', { sessionName: sessionName } );
+    // Socket.emit( 'ready', { sessionName: sessionName } );
+    $location.path('/loading')
   };
 
   Socket.on( 'sessionStarted', function() {
-    $location.path( '/match' );
+    $location.path( '/loading' );
   } );
 
   //start options view when everyone is in the room
@@ -47,15 +47,15 @@ angular.module( 'moviematch.lobby', ['ngRoute'] )
     // Socket.emit('startMovieInput', {})
   }
 
-  $scope.$on('$routeChangeStart', function (next, current) {
-    if($location.path() === '/match') {
-      return;
-    } else {
-      console.log($scope.username, '<--username')
-      console.log(Socket, '<--sock')
-      Socket.emit('routeChange', {sessionName: $scope.session.sessionName, username: $scope.username});
-      // Socket.leave($window.localStorage.getItem('sessionName'));
-      console.log('left', $window.localStorage.getItem('sessionName'))
-    }
-  })
+  // $scope.$on('$routeChangeStart', function (next, current) {
+  //   if($location.path() === '/match') {
+  //     return;
+  //   } else {
+  //     console.log($scope.username, '<--username')
+  //     console.log(Socket, '<--sock')
+  //     Socket.emit('routeChange', {sessionName: $scope.session.sessionName, username: $scope.username});
+  //     // Socket.leave($window.localStorage.getItem('sessionName'));
+  //     console.log('left', $window.localStorage.getItem('sessionName'))
+  //   }
+  // })
 } )

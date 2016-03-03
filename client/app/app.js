@@ -11,7 +11,8 @@ var app = angular.module( 'moviematch', [
   'ngRoute',
   'btford.socket-io',
   'moviematch.directive',
-  'moviematch.dstValidateUser'
+  'moviematch.dstValidateUser',
+  'moviematch.loading'
   ])
 
 .config( function ( $routeProvider, $httpProvider ) {
@@ -51,6 +52,9 @@ var app = angular.module( 'moviematch', [
     .when( '/movieinput', {
       templateUrl: 'app/movieinput/movieinput.html',
       controller: 'MovieInputController',
+    .when( '/loading', {
+      templateUrl: 'app/loading/loading.html',
+      controller: 'LoadingController',
       authenticate: true
     })
     .otherwise({

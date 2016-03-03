@@ -52,6 +52,16 @@ io.on( 'connect' , function( socket ){
     socket.join( data.sessionName );
     io.to( data.sessionName ).emit('removeUser', {username: data.username})
   })
+
+  socket.on('ready', function (data) {
+    socket.join(data.sessionName);
+    io.to(data.sessionName).emit('newReadyUser', {count: "blah"})
+  })
+
+  socket.on('allReady', function(data) {
+    socket.join(data.sessionName);
+    io.to(data.sessionName).emit('goMatch');
+  })
 });
 
 const PORT = 8000;
