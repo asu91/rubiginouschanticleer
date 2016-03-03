@@ -1,16 +1,19 @@
 // require controllers here
 var usersController = require('../users/usersController.js');
-var genresController = require('../genres/genresController.js');
 var moviesController = require('../movies/moviesController.js');
-var prefsController = require('../prefs/prefsController.js');
 var sessionsController = require('../sessions/sessionsController.js');
 var votesController = require('../votes/votesController.js');
+var movieAPIController = require('../movieAPI/movieAPIController.js');
 var sessions_usersController = require('../sessions_users/sessions_usersController.js');
 
 var helpers = require('./helpers.js'); // our custom middleware
 
 
 module.exports = function ( app, express ) {
+  /* EXTERNAL MOVIE API CALLS */
+  app.get('/api/omdb/:movie_title', movieAPIController.omdb);
+  app.get('/api/movieDB/:options', movieAPIController.movieDB);
+
   /* USERS */
   app.get('/api/users', usersController.getAllUsers );
   app.get('/api/users/:user', usersController.validate );
@@ -18,18 +21,10 @@ module.exports = function ( app, express ) {
   app.post('/api/users/signup', usersController.signup );
   app.post('/api/users/signout', usersController.signout );
 
-  /* GENRES */
-  app.get('/api/genres', genresController.getAllGenres );
-  app.get('/api/genres/:genre', genresController.getGenre );
-
   /* MOVIES */
   app.get('/api/movies', moviesController.getAllMovies );
   app.get('/api/movies/package/:number', moviesController.getMoviePackage );
   app.get('/api/movies/:movie_id', moviesController.getMovie );
-
-  /* PREFS */
-  app.get('/api/prefs', prefsController.getPrefs );
-  app.post('/api/prefs', prefsController.addPrefs );
 
   /* SESSIONS */
   app.get('/api/sessions', sessionsController.getAllSessions );
@@ -49,6 +44,7 @@ module.exports = function ( app, express ) {
   /* MATCHING */
   // This endpoint answers the question, 'For session <id>, do we currently have a match on movie <id>?'
   app.get('/api/sessions/:session_id/match/:movie_id', votesController.checkMatch );
+
 
   // If a request is sent somewhere other than the routes above,
   // send it through our custom error handler

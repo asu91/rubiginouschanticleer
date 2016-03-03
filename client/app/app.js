@@ -1,4 +1,5 @@
 var app = angular.module( 'moviematch', [
+  'moviematch.externalAPI',
   'moviematch.auth',
   'moviematch.match',
   'moviematch.prefs',
@@ -6,6 +7,7 @@ var app = angular.module( 'moviematch', [
   'moviematch.services',
   'moviematch.showmatch',
   'moviematch.lobby',
+  'moviematch.movieinput',
   'ngRoute',
   'btford.socket-io',
   'moviematch.directive',
@@ -44,6 +46,11 @@ var app = angular.module( 'moviematch', [
     .when( '/showmatch/:id', {
       templateUrl: 'app/showmatch/showmatch.html',
       controller: 'ShowmatchController',
+      authenticate: true
+    })
+    .when( '/movieinput', {
+      templateUrl: 'app/movieinput/movieinput.html',
+      controller: 'MovieInputController',
       authenticate: true
     })
     .otherwise({
