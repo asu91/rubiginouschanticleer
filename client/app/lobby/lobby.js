@@ -36,13 +36,16 @@ angular.module( 'moviematch.lobby', ['ngRoute'] )
     Socket.emit( 'startSession', { sessionName: sessionName } );
     // Socket.emit('ready', {sessionName: sessionName});
   };
-
-  Socket.on( 'sessionStarted', function() {
-    $location.path( '/movieinput' );
-  } );
+  var opened = false;
+  Socket.on('sessionStarted', function() {
+    if (opened === false) {
+      opened = true;
+      open();
+    }
+  });
 
   //start options view when everyone is in the room
-  $scope.open = function () {
+  var open = function () {
 
       var modalInstance = $uibModal.open({
         animation: true,
