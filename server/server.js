@@ -29,7 +29,7 @@ io.on( 'connect' , function( socket ){
     // User.findOne( { where: { username: data.username } } )
     // .then( function( user ) {
       //this function emits a newUser event and the new user to a specific room named the session name
-      io.to( data.sessionName ).emit( 'newUser', data.username );
+      io.to( data.sessionName ).emit( 'newUser', data );
     // } );
   } );
 
@@ -49,7 +49,6 @@ io.on( 'connect' , function( socket ){
   })
 
   socket.on('routeChange', function(data) {
-    console.log('<------------------------server')
     socket.join( data.sessionName );
     io.to( data.sessionName ).emit('removeUser', {username: data.username})
   })
