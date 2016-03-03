@@ -1,10 +1,12 @@
 angular.module('moviematch.movieinput', [])
 
-.controller('MovieInputController', function($scope, $http, movieAPI) {
+.controller('MovieInputController', function($scope, $http, $location, Socket, Session, Lobby, $uibModalInstance) {
   $scope.movieTitle = "";
   $scope.searchResults;
   $scope.movieChoices = [];
   $scope.error;
+  $scope.session = {};
+  $scope.users;
 
   $scope.fetchSearch = function() {
     $http({
@@ -39,4 +41,28 @@ angular.module('moviematch.movieinput', [])
   }
 
   $scope.$watch('movieTitle', $scope.fetchSearch);
+
+
+  Session.getSession()
+    .then( function( session ) {
+      $scope.session = session;
+      Lobby.getUsersInOneSession( $scope.session.sessionName )
+        .then( function( users ){
+          $scope.users = users;
+        });
+  });
+
+  $scope.ready = function() {
+    $location.path('/loading')
+  }
+
+
+
+  $scope.ok = function () {
+    $uibModalInstance.close($scope.movieChoices);
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
 });

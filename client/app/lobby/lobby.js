@@ -1,6 +1,6 @@
 angular.module( 'moviematch.lobby', ['ngRoute'] )
 
-.controller( 'LobbyController', function( $scope, Session, Lobby, Socket, $location, Auth, $window) {
+.controller( 'LobbyController', function( $scope, Session, Lobby, Socket, $location, Auth, $window, $uibModal) {
   $scope.session = {};
 
   Session.getSession()
@@ -33,19 +33,29 @@ angular.module( 'moviematch.lobby', ['ngRoute'] )
     }
   })
   $scope.startSession = function( sessionName ) {
-    console.log(sessionName, 'session!!!!!!!!!!!!!!!!!!!')
-    // Socket.emit( 'ready', { sessionName: sessionName } );
-    $location.path('/loading')
+    Socket.emit( 'startSession', { sessionName: sessionName } );
+    // Socket.emit('ready', {sessionName: sessionName});
   };
 
   Socket.on( 'sessionStarted', function() {
-    $location.path( '/loading' );
+    $location.path( '/movieinput' );
   } );
 
   //start options view when everyone is in the room
-  $scope.startMovieInput = function() {
-    // Socket.emit('startMovieInput', {})
-  }
+  $scope.open = function () {
+
+      var modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: '../app/movieinput/movieinput.html',
+        controller: 'MovieInputController',
+        size: 'lg'
+      });
+
+      // modalInstance.result.then(function () {
+      // }, function () {
+      //   $log.info('Modal dismissed at: ' + new Date());
+      // });
+    };
 
   // $scope.$on('$routeChangeStart', function (next, current) {
   //   if($location.path() === '/match') {

@@ -1,5 +1,4 @@
 var app = angular.module( 'moviematch', [
-  'moviematch.externalAPI',
   'moviematch.auth',
   'moviematch.match',
   'moviematch.prefs',
@@ -12,7 +11,10 @@ var app = angular.module( 'moviematch', [
   'btford.socket-io',
   'moviematch.directive',
   'moviematch.dstValidateUser',
-  'moviematch.loading'
+  'moviematch.loading',
+  'moviematch.movieinput',
+  'ui.bootstrap',
+  'ngAnimate'
   ])
 
 .config( function ( $routeProvider, $httpProvider ) {
@@ -52,6 +54,7 @@ var app = angular.module( 'moviematch', [
     .when( '/movieinput', {
       templateUrl: 'app/movieinput/movieinput.html',
       controller: 'MovieInputController',
+    })
     .when( '/loading', {
       templateUrl: 'app/loading/loading.html',
       controller: 'LoadingController',
