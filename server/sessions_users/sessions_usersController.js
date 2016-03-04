@@ -1,6 +1,6 @@
 var helpers = require( '../config/helpers' );
 var Session_User = require( './sessions_users' );
-var Session = require( '../sessions/sessions' );
+var Session = require( '../sessions/sessions' ).Session;
 var User = require( '../users/users' )
 module.exports = {
 
@@ -63,11 +63,14 @@ module.exports = {
   addOneUser: function(req, res, next) {
     var username = req.body.username;
     var sessionName = req.body.sessionName;
+    console.log(sessionName, 'this is sessionName')
 
     User.findOne( {where: {username : username} } )
     .then( function( user ) {
+      console.log(user,'user!!!')
       Session.findOne( {where: { sessionName : sessionName } } )
       .then( function( session ) {
+        console.log(session, '<--------session!!')
         Session_User.findOrCreate( { where: {
           user_id: user.id,
           session_id: session.id
