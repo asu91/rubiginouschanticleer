@@ -1,4 +1,4 @@
-angular.module( 'moviematch.lobby', ['ngRoute'] )
+angular.module( 'moviematch.lobby', [] )
 
 .controller( 'LobbyController', function( $scope, Session, Lobby, Socket, $location, Auth, $window, $uibModal) {
   $scope.session = {};
@@ -36,10 +36,10 @@ angular.module( 'moviematch.lobby', ['ngRoute'] )
     Socket.emit( 'startSession', { sessionName: sessionName } );
     // Socket.emit('ready', {sessionName: sessionName});
   };
-  var opened = false;
+  var isOpen = false;
   Socket.on('sessionStarted', function() {
-    if (opened === false) {
-      opened = true;
+    if (isOpen === false) {
+      isOpen = true;
       open();
     }
   });

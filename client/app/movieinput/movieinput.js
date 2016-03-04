@@ -1,6 +1,6 @@
 angular.module('moviematch.movieinput', [])
 
-.controller('MovieInputController', function($scope, $http, $location, Socket, Session, Lobby, $uibModalInstance) {
+.controller('MovieInputController', function($scope, $http, $location, Session, Lobby, $uibModalInstance) {
   $scope.movieTitle = "";
   $scope.searchResults;
   $scope.movieChoices = [];

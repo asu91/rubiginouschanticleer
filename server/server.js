@@ -38,10 +38,6 @@ io.on( 'connect' , function( socket ){
     io.to( data.sessionName ).emit( 'sessionStarted' );
   } );
 
-  socket.on('startMovieInput', function (data) {
-    // socket.join()
-  })
-
   // This listener handles broadcasting a matched movie to connected clients.
   socket.on( 'foundMatch', function( data ) {
     socket.join( data.sessionName );
