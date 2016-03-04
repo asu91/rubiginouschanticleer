@@ -5,9 +5,12 @@ var sessionsController = require('../sessions/sessionsController.js');
 var votesController = require('../votes/votesController.js');
 var movieAPIController = require('../movieAPI/movieAPIController.js');
 var sessions_usersController = require('../sessions_users/sessions_usersController.js');
+var newMoviesController = require('../newMovies/newMoviesController.js');
 
+
+/* Middleware */ 
 var helpers = require('./helpers.js'); // our custom middleware
-
+var parser = require('body-parser');
 
 module.exports = function ( app, express ) {
   /* EXTERNAL MOVIE API CALLS */
@@ -44,6 +47,10 @@ module.exports = function ( app, express ) {
   /* MATCHING */
   // This endpoint answers the question, 'For session <id>, do we currently have a match on movie <id>?'
   app.get('/api/sessions/:session_id/match/:movie_id', votesController.checkMatch );
+
+  /* GETTING AND POSTING NEW MOVIES TO DATABASE */
+  app.get('/api/sessions/TODO/:session_name', newMoviesController.get );
+  app.post('/api/movies/TODO',  newMoviesController.post);
 
 
   // If a request is sent somewhere other than the routes above,
