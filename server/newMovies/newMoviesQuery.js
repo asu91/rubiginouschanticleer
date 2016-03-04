@@ -18,7 +18,8 @@ module.exports = {
 	},
 
   getMoviesBySession: function(sessionName, callback) {
-  	NewMovies
+  	
+  	NewMovie
   	  .findAll({
   	  	where: {session_id: sessionName}
   	  })

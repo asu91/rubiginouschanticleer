@@ -5,8 +5,9 @@ var newMoviesQuery = require('./newMoviesQuery');
 module.exports = {
 
 	get: function(req, res){
-		var session_name = req.params.session_name;  
-		//to do put the get request in the params
+		var session_name = req.params.session_name;
+		console.log("******Session Name*** ",session_name);  
+
 		newMoviesQuery.getMoviesBySession(session_name, function(moviesData){
 			res.json(moviesData); 
 
@@ -17,10 +18,6 @@ module.exports = {
 	post: function(req, res){
 		var session_name = req.body.session_name;
 		var receivedMovies = req.body.movies;
-		
-		console.log("********",session_name); 
-		console.log(receivedMovies,'<---received');
-		//res.send(session_name);
 		newMoviesQuery.insertAll(session_name, receivedMovies, function(){
 			console.log("data received");
 		});

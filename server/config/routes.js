@@ -49,7 +49,7 @@ module.exports = function ( app, express ) {
   app.get('/api/sessions/:session_id/match/:movie_id', votesController.checkMatch );
 
   /* GETTING AND POSTING NEW MOVIES TO DATABASE */
-  app.get('/api/sessions/TODO/:session_name', newMoviesController.get );
+  app.get('/api/TODO/:session_name', newMoviesController.get );
   app.post('/api/movies/TODO',  newMoviesController.post);
 
 
