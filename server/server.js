@@ -26,11 +26,11 @@ io.on( 'connect' , function( socket ){
   socket.on( 'newJoin', function( data ) {
     //this function creates a new or joins an existing socket-room
     socket.join( data.sessionName );
-    User.findOne( { where: { username: data.username } } )
-    .then( function( user ) {
+    // User.findOne( { where: { username: data.username } } )
+    // .then( function( user ) {
       //this function emits a newUser event and the new user to a specific room named the session name
-      io.to( data.sessionName ).emit( 'newUser', user );
-    } );
+      io.to( data.sessionName ).emit( 'newUser', data );
+    // } );
   } );
 
   socket.on( 'startSession', function( data ) {
@@ -42,7 +42,22 @@ io.on( 'connect' , function( socket ){
   socket.on( 'foundMatch', function( data ) {
     socket.join( data.sessionName );
     io.to( data.sessionName ).emit( 'matchRedirect', data.movie.id );
-  });
+  })
+
+  socket.on('routeChange', function(data) {
+    socket.join( data.sessionName );
+    io.to( data.sessionName ).emit('removeUser', {username: data.username})
+  })
+
+  socket.on('ready', function (data) {
+    socket.join(data.sessionName);
+    io.to(data.sessionName).emit('newReadyUser', {count: "blah"})
+  })
+
+  socket.on('allReady', function(data) {
+    socket.join(data.sessionName);
+    io.to(data.sessionName).emit('goMatch');
+  })
 });
 
 const PORT = 8000;
