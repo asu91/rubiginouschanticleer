@@ -1,5 +1,5 @@
 var helpers = require( '../config/helpers' );
-var Session = require( './sessions' );
+var Session = require( './sessions' ).Session;
 
 module.exports = {
 

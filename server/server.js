@@ -2,10 +2,16 @@ var express = require( 'express' );
 var db = require( './config/db' );
 var app = express();
 
+//var Sequelize = require('sequelize');
+
 var http = require( 'http' ).Server( app );
 var io = require( 'socket.io' )( http );
-var Session = require( './sessions/sessions' );
+var Session = require( './sessions/sessions' ).Session;
 var User = require( './users/users' );
+//var NewMovie = require('./newMovies/newMovies');
+var NewMovie = require( './sessions/sessions').NewMovie;
+
+//NewMovie.belongsTo(Session, {foreignKey: 'session_id'});
 
 io.on( 'connect' , function( socket ){
   console.log( 'we are connected!!' );

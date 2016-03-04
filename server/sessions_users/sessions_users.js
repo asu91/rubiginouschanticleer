@@ -2,7 +2,7 @@ var db = require( '../config/db' );
 var helpers = require( '../config/helpers' );
 var Sequelize = require( 'sequelize' );
 var User = require( '../users/users' );
-var Session = require( '../sessions/sessions' );
+var Session = require( '../sessions/sessions' ).Session;
 
 var Session_User = db.define( 'sessions_users', {
 	user_id: {
