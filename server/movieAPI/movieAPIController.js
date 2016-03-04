@@ -1,8 +1,7 @@
 var https = require('https');
 
-
 module.exports = {
-  omdb : function(req, res) {
+  omdbSearch : function(req, res) {
     var movieTitle = req.params.movie_title;
     console.log('REQUEST!! movie title: ', movieTitle);
 
