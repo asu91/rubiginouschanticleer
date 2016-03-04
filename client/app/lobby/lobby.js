@@ -17,6 +17,7 @@ angular.module( 'moviematch.lobby', [] )
 
   $scope.username = Auth.getUserName();
   $scope.users = [];
+  $scope.readyCount = 0;
 
 
   //this function is listening to any newUser event and recieves/appends the new user
@@ -32,10 +33,25 @@ angular.module( 'moviematch.lobby', [] )
       }
     }
   })
+
+  Socket.on( 'newReadyUser', function( data ) {
+    $scope.readyCount++
+    console.log($scope.readyCount)
+    if ($scope.readyCount === $scope.users.length) {
+      // $location.path('/match');
+      Socket.emit('allReady', {sessionName: $scope.session.sessionName});
+    }
+  });
+
+  Socket.on('goMatch', function() {
+    $location.path('/match');
+  })
+
   $scope.startSession = function( sessionName ) {
     Socket.emit( 'startSession', { sessionName: sessionName } );
     // Socket.emit('ready', {sessionName: sessionName});
   };
+
   var isOpen = false;
   Socket.on('sessionStarted', function() {
     if (isOpen === false) {
@@ -54,10 +70,11 @@ angular.module( 'moviematch.lobby', [] )
         size: 'lg'
       });
 
-      // modalInstance.result.then(function () {
-      // }, function () {
-      //   $log.info('Modal dismissed at: ' + new Date());
-      // });
+      modalInstance.result
+        .then(function (movieSelection) {
+          Socket.emit('ready', {sessionName: $scope.session.sessionName})
+          console.log(movieSelection);
+        });
     };
 
   // $scope.$on('$routeChangeStart', function (next, current) {
