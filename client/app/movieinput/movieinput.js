@@ -1,20 +1,14 @@
 angular.module('moviematch.movieinput', [])
 
-<<<<<<< Updated upstream
-.controller('MovieInputController', function($scope, $http, $location, Session, Lobby, $uibModalInstance) {
-=======
-.controller('MovieInputController', function($scope, $http, requestFactory, Session) {
->>>>>>> Stashed changes
+.controller('MovieInputController', function($scope, $http, $location, Session, RequestFactory, $uibModalInstance) {
   $scope.movieTitle = "";
   $scope.searchResults;
   $scope.movieChoices = [];
   $scope.error;
-  $scope.session = {};
-  $scope.users;
 
   // Get movies and assigns them to $scope.searchResults
   $scope.fetchSearchResults = function() {
-    requestFactory.omdb($scope.movieTitle)
+    RequestFactory.omdbSearch($scope.movieTitle)
       .then(function(res){
         var data = JSON.parse(res.data);
         $scope.searchResults = data.Search;
@@ -23,7 +17,7 @@ angular.module('moviematch.movieinput', [])
 
   // Get movies and assigns them to $scope.searchResults
   $scope.fetchInTheaters = function() {
-    requestFactory.movieDB()
+    RequestFactory.movieDB()
       .then(function(res){
         var results = JSON.parse(res.data);
         $scope.searchResults = results.Search;
@@ -43,30 +37,30 @@ angular.module('moviematch.movieinput', [])
     }
   };
 
-  // Fired when user completes choices
+
+  // Fired when user completes movie picks
   $scope.readyToVote = function($http) {
-    var session_name = Session.getSession();
-    var movies = 
-    var options = {
-      session_name: session_name,
-      movies: $scope.movieChoices
-    };
-    requestFactory.addMovies(options);
+    // Make array of imdb_IDs from movie picks
+    var movies = _.map($scope.movieChoices, function(movie) {
+      return movie.imdbID;
+    })
+    Session.getSession()
+      .then(function(session) {
+        var options = {
+          session_name: session.name,
+          movies: movies
+        };
+        // send IMDB_ID of movies picks to server
+        RequestFactory.addMovies(options);
+      });
+    // send data back to '/loading'
     $uibModalInstance.close($scope.movieChoices);
-  }
+  };
 
-  $scope.$watch('movieTitle', $scope.fetchSearch);
+  // Watch for changes in searchbar for live search
+  $scope.$watch('movieTitle', $scope.fetchSearchResults);
 
-
-  Session.getSession()
-    .then( function( session ) {
-      $scope.session = session;
-      Lobby.getUsersInOneSession( $scope.session.sessionName )
-        .then( function( users ){
-          $scope.users = users;
-        });
-  });
-
+  /** POP-UP SPECIFIC FUNCTIONS **/
   $scope.ready = function() {
     $location.path('/loading')
   }
@@ -76,12 +70,12 @@ angular.module('moviematch.movieinput', [])
   };
 })
 
-.factory('requestFactory', function($http) {
+.factory('RequestFactory', function($http) {
   // Makes request to omdb API and returns results in a promise
-  var omdb = function(movieTitle) {
+  var omdbSearch = function(movieTitle) {
     return $http({
       method: 'GET',
-      url: '/api/omdb/' + movieTitle
+      url: '/api/omdb/search/' + movieTitle
     });
   };
   // Makes request to movieDB API and returns results in a promise
@@ -101,7 +95,7 @@ angular.module('moviematch.movieinput', [])
   };
 
   return {
-    omdb: omdb,
+    omdbSearch: omdbSearch,
     movieDB: movieDB,
     addMovies: addMovies
   };

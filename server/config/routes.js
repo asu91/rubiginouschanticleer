@@ -11,7 +11,7 @@ var helpers = require('./helpers.js'); // our custom middleware
 
 module.exports = function ( app, express ) {
   /* EXTERNAL MOVIE API CALLS */
-  app.get('/api/omdb/:movie_title', movieAPIController.omdb);
+  app.get('/api/omdb/search/:movie_title', movieAPIController.omdbSearch);
   app.get('/api/movieDB/:options', movieAPIController.movieDB);
 
   /* USERS */
