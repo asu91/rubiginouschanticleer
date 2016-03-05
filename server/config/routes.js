@@ -2,7 +2,7 @@
 var usersController = require('../users/usersController.js');
 var moviesController = require('../movies/moviesController.js');
 var sessionsController = require('../sessions/sessionsController.js');
-var votesController = require('../votes/votesController.js');
+// var votesController = require('../votes/votesController.js');
 var movieAPIController = require('../movieAPI/movieAPIController.js');
 var sessions_usersController = require('../sessions_users/sessions_usersController.js');
 var newMoviesController = require('../newMovies/newMoviesController.js');
@@ -46,7 +46,7 @@ module.exports = function ( app, express ) {
 
   /* MATCHING */
   // This endpoint answers the question, 'For session <id>, do we currently have a match on movie <id>?'
-  app.get('/api/sessions/:session_id/match/:movie_id', votesController.checkMatch );
+  // app.get('/api/sessions/:session_id/match/:movie_id', votesController.checkMatch );
 
   /* GETTING AND POSTING NEW MOVIES TO DATABASE */
   app.post('/api/moviesTODO', movieAPIController.post);

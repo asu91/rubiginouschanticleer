@@ -20,7 +20,6 @@ angular.module('moviematch.movieinput', [])
   // Assigns error messages if > 5 movies chosen
   $scope.updateMovies = function(add, movie) {
     if (add && $scope.movieChoices.length < 5 ) {
-      // ADD LOGIC TO PREVENT DUPLICATES
       $scope.movieChoices.push(movie);
     } else if (!add) {
       $scope.movieChoices.splice(movie, 1);

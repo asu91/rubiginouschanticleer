@@ -1,6 +1,7 @@
 var express = require( 'express' );
 var db = require( './config/db' );
 var app = express();
+var votesController = require('./votes/votesController');
 
 //var Sequelize = require('sequelize');
 
@@ -32,11 +33,8 @@ io.on( 'connect' , function( socket ){
   socket.on( 'newJoin', function( data ) {
     //this function creates a new or joins an existing socket-room
     socket.join( data.sessionName );
-    // User.findOne( { where: { username: data.username } } )
-    // .then( function( user ) {
       //this function emits a newUser event and the new user to a specific room named the session name
       io.to( data.sessionName ).emit( 'newUser', data );
-    // } );
   } );
 
   socket.on( 'startSession', function( data ) {
@@ -44,11 +42,26 @@ io.on( 'connect' , function( socket ){
     io.to( data.sessionName ).emit( 'sessionStarted' );
   } );
 
-  // This listener handles broadcasting a matched movie to connected clients.
-  socket.on( 'foundMatch', function( data ) {
-    socket.join( data.sessionName );
-    io.to( data.sessionName ).emit( 'matchRedirect', data.movie.id );
+  // Listens for when a user is done voting
+  socket.on('doneVoting', function(data) {
+    io.to(data.sessionName).emit('updateVoters', data.username);
   })
+
+  // Listens for all voters to finish
+  socket.on('selectedMovie', function(data) { 
+    console.log('RECIEVING EMIT <------------------------');   
+    votesController.checkMatch(data.session_id, function(movie) {
+      console.log('do i get here??!?!?!??', movie)
+      socket.join(data.sessionName);
+      io.emit('winner', movie);
+    });
+  })
+
+  // This listener handles broadcasting a matched movie to connected clients.
+  // socket.on( 'foundMatch', function( data ) {
+  //   socket.join( data.sessionName );
+  //   io.to( data.sessionName ).emit( 'matchRedirect', data.movie.id );
+  // })
 
   socket.on('routeChange', function(data) {
     socket.join( data.sessionName );
