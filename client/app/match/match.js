@@ -1,23 +1,43 @@
 angular.module( 'moviematch.match', [] )
 
-.controller( 'MatchController', function($http, $scope, Match, Auth, Session, FetchMovies, Socket, Lobby, MatchRequestFactory) {
+.controller( 'MatchController', function($http, $location, $scope, Match, Auth, Session, FetchMovies, Socket, Lobby, MatchRequestFactory) {
   $scope.session = {};
   $scope.user = {};
+  $scope.users;
+  $scope.usersDone = 0;
   $scope.movies;
   $scope.currMovie = {};
+  $scope.done = false;
+  $scope.routed = false;
+
+
 
   $scope.user.name = Auth.getUserName();
 
   // Sets currMovie to next movie OR moves client to waiting page
   var loadNextMovie = function(){
-    if($scope.currMovie.index < $scope.movies.length) {
+    if($scope.currMovie.index < $scope.movies.length - 1) {
       $scope.currMovie.index++;
       $scope.currMovie.movie = $scope.movies[$scope.currMovie.index];
-    }
-    else {
+    } else {
       Socket.emit('doneVoting', {username : $scope.user.name, sessionName: $scope.session.sessionName});
+      $scope.done = true;
+      // $location.path('/showmatch')
     }
   };
+
+  // Listening to when other voters are done
+  Socket.on('updateVoters', function(data) {
+    // console.log('I GOT AN EMIT!!!!!');
+    $scope.usersDone++;
+    console.log('finished', $scope.usersDone, 'total', $scope.users.length);
+    if ($scope.usersDone === $scope.users.length && !$scope.routed) {
+      $location.path("/showmatch/true");
+    } else if ($scope.done) {
+      $scope.routed = true;
+      $location.path("/showmatch/false");
+    }
+  })
 
   // Fires when client votes on a movie. Updates vote score of movie in DB
   $scope.updateVote = function(vote) {
@@ -45,6 +65,12 @@ angular.module( 'moviematch.match', [] )
       .then( function( session ) {
         $scope.session = session;
         // Get all movies from session
+
+        Lobby.getUsersInOneSession($scope.session.sessionName)
+          .then(function(users){
+            $scope.users = users;
+          });
+
         MatchRequestFactory.getMovies($scope.session.id)
           .then(function(movies) {
             $scope.movies = movies.data;

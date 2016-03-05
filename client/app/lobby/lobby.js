@@ -2,6 +2,7 @@ angular.module( 'moviematch.lobby', [] )
 
 .controller( 'LobbyController', function( $scope, Session, Lobby, Socket, $location, Auth, $window, $uibModal) {
   $scope.session = {};
+  $scope.users;
 
   Session.getSession()
   .then( function( session ) {
@@ -16,13 +17,12 @@ angular.module( 'moviematch.lobby', [] )
   });
 
   $scope.username = Auth.getUserName();
-  $scope.users = [];
   $scope.readyCount = 0;
 
 
   //this function is listening to any newUser event and recieves/appends the new user
   Socket.on( 'newUser', function( data ) {
-    $scope.users.push( data );
+    $scope.users.push( data );  
   } );
 
   Socket.on('removeUser', function (data) {
