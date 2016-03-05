@@ -25,7 +25,7 @@ module.exports = {
 
         NewMovie.findOrCreate({where: movie})
           .then(function(data) {
-            console.log(data, 'SUCCESS!!!!')
+            console.log('SUCCESS!!!!')
           })
           .catch(function(err) {
             console.error(err);
