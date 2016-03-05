@@ -46,7 +46,6 @@ angular.module('moviematch.movieinput', [])
     })
     Session.getSession()
       .then(function(session) {
-        console.log('AM I GETTING HERE!!?!?!')
         var options = {
           session_id: session.id,
           movies: movies
