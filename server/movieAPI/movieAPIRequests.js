@@ -1,6 +1,5 @@
 var https = require('https');
 
-
 module.exports = {
   omdbSearch : function(req, res) {
     var movieTitle = req.params.movie_title;
@@ -19,7 +18,6 @@ module.exports = {
   },
 
   omdbFind : function(imdb_id, callback) {
-
     var options = {
       host: 'www.omdbapi.com',
       path: '/?plot=full&i=' + imdb_id,
@@ -40,7 +38,7 @@ module.exports = {
       method: 'GET'
     };
 
-    externalReq = externalAPI(options, res);
+    var externalReq = externalAPI(options, res);
     externalReq.end();
   }
 };

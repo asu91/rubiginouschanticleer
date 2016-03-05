@@ -22,7 +22,6 @@ angular.module( 'moviematch.lobby', [] )
 
   //this function is listening to any newUser event and recieves/appends the new user
   Socket.on( 'newUser', function( data ) {
-    console.log(data, 'dis is da data')
     $scope.users.push( data );
   } );
 
@@ -38,7 +37,6 @@ angular.module( 'moviematch.lobby', [] )
     $scope.readyCount++
     console.log($scope.readyCount)
     if ($scope.readyCount === $scope.users.length) {
-      // $location.path('/match');
       Socket.emit('allReady', {sessionName: $scope.session.sessionName});
     }
   });
@@ -49,7 +47,6 @@ angular.module( 'moviematch.lobby', [] )
 
   $scope.startSession = function( sessionName ) {
     Socket.emit( 'startSession', { sessionName: sessionName } );
-    // Socket.emit('ready', {sessionName: sessionName});
   };
 
   var isOpen = false;
