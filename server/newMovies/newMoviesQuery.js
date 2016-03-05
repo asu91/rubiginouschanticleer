@@ -26,7 +26,7 @@ module.exports = {
       });
   },
 
-  getMovieById: function(id, vote, callback) {
+  updateMovieVote: function(id, vote, callback) {
     NewMovie.find({where: {
       id: id
     }})
@@ -40,6 +40,16 @@ module.exports = {
       .then(function() {
         callback();
       })
+  },
+
+  getMovieByID: function(id, callback) {
+
+  	NewMovie.find({where: {
+      id: id
+    }})
+      .then(function(movie) {
+      	callback(movie);
+    })
   }
 
 };

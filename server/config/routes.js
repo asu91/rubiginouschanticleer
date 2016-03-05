@@ -51,7 +51,7 @@ module.exports = function ( app, express ) {
   /* GETTING AND POSTING NEW MOVIES TO DATABASE */
   app.post('/api/moviesTODO', movieAPIController.post);
   app.get('/api/movies/:session_id', newMoviesController.get );
-  app.post('/api/moviesTODO',  newMoviesController.post);
+  // app.post('/api/moviesTODO',  newMoviesController.post);
   app.put('/api/movies/votes', newMoviesController.put)
 
 

@@ -27,7 +27,7 @@ module.exports = {
 	put: function(req, res) {
 		var id = req.body.id;
 		var vote = req.body.vote;
-		newMoviesQuery.getMovieById(id, vote, function() {
+		newMoviesQuery.updateMovieVote(id, vote, function() {
       res.send('it worked!')
 		});
 
