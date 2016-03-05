@@ -118,8 +118,19 @@ hr {
   background:rgba(0,94,225,0.3);
 }
 
-.foto {
+/*.foto {
   display: block;
   margin: 0 auto;
   width: 100%;
+}*/
+
+.img-responsive {
+    display: block;
+    width: auto;
+    max-height: 100%;
+}
+
+.laptop-buttons {
+    width: auto;
+    position: static;
 }
