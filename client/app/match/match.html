@@ -7,11 +7,14 @@
     <div class="row">
       <!-- We want to size the poster appropriately so we can
       see the buttons at the bottom -->
+
       <div class="poster col-xs-12 center">
         <img alt="{{ currMovie.title }} " src="{{ currMovie.movie.poster }}" class = "foto">
+
       </div>
-      <div class="summary col-xs-12 center">
+      <div class="summary col-md-6 center">
         <h4>Movie Summary</h4>
+
         <p>{{ currMovie.movie.plot }}</p>
       </div>
     </div>
@@ -28,3 +31,4 @@
       <button style="" ng-click="updateVote(0)">MEH</button>
       <button style="" ng-click="updateVote(1)">HELLYEA!</button>
     </div>
+
