@@ -9,9 +9,11 @@ module.exports = {
 
   post: function (req, res) {
     var session_id = req.body.session_id;
-    var imdb_ids = req.body.movies;
-    console.log(session_id,'session_id', imdb_ids, 'imdb_ids')
-    _.each(imdb_ids, function(id) {
+    var imdb_ids = _.uniq(req.body.movies);
+    var allMovies = [];
+    
+    _.each(imdb_ids, function(id, index) {
+
       movieAPI.omdbFind(id, function (data) {
         data = JSON.parse(data);
         var movie = {
@@ -21,15 +23,18 @@ module.exports = {
           votes: 0,
           year: data.Year,
           session_id: session_id
-        }
+        };
+        allMovies.push(movie);
 
-        NewMovie.findOrCreate({where: movie})
-          .then(function(data) {
-            console.log('SUCCESS!!!!')
-          })
-          .catch(function(err) {
-            console.error(err);
-          });
+        if (allMovies.length === imdb_ids.length) {
+          NewMovie.bulkCreate(allMovies)
+            .then(function() {
+                res.end("SUCCESS!!!!");
+            })
+            .catch(function(err) {
+              console.error(err);
+            });
+          }
       });
     });
   }

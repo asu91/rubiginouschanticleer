@@ -43,11 +43,14 @@ angular.module('moviematch.movieinput', [])
           session_id: session.id,
           movies: movies
         };
+
         // send IMDB_ID of movies picks to server
-        RequestFactory.addMovies(options);
+        RequestFactory.addMovies(options)
+          .then(function() {
+            // send data back to '/loading'
+            $uibModalInstance.close($scope.movieChoices);
+          });
       });
-    // send data back to '/loading'
-    $uibModalInstance.close($scope.movieChoices);
   };
 
 

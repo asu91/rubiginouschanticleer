@@ -3,7 +3,6 @@ var https = require('https');
 module.exports = {
   omdbSearch : function(req, res) {
     var movieTitle = req.params.movie_title;
-    console.log('REQUEST!! movie title: ', movieTitle);
 
     var options = {
       host: 'www.omdbapi.com',
