@@ -46,8 +46,9 @@ angular.module('moviematch.movieinput', [])
     })
     Session.getSession()
       .then(function(session) {
+        console.log('AM I GETTING HERE!!?!?!')
         var options = {
-          session_name: session.name,
+          session_id: session.id,
           movies: movies
         };
         // send IMDB_ID of movies picks to server

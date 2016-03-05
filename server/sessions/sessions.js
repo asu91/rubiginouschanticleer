@@ -27,6 +27,7 @@ var NewMovie = db.define('newMovies', {
 	poster: Sequelize.STRING,
 	plot: Sequelize.STRING,
 	votes: Sequelize.INTEGER,
+  year: Sequelize.INTEGER,
 	session_id: {
 	    type: Sequelize.INTEGER //,
 	    //unique: 'newMovies_idx'

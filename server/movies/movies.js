@@ -1,6 +1,34 @@
 var _ = require( 'underscore' );
+
+
 //ONE EXAMPLE-PACKAGE OF 10 MOVIES, ALREADY FORMATTED. TO SEE API RESPONSE: SEE BELOW
 
+exports.getAllMovies = function() {
+  return examplePackage1.concat(examplePackage2).concat(examplePackage3).concat(examplePackage4).concat(examplePackage5).concat(examplePackage6);
+};
+
+exports.getMovie = function( id ) {
+  return _.find( exports.getAllMovies(), function( movie ) {
+    return movie.id === id;
+  });
+};
+
+exports.getMoviePackage = function( packageNumber ){
+  packageNumber = parseInt(packageNumber);
+  if (packageNumber === 0){                                      //only returns exampleData for now
+    return examplePackage1;
+  } else if (packageNumber === 1){
+    return examplePackage2;
+  } else if (packageNumber === 2){
+    return examplePackage3;
+  } else if (packageNumber === 3){
+    return examplePackage4;
+  } else if (packageNumber === 4){
+    return examplePackage5;
+  } else {
+    return examplePackage6;
+  }
+};
 
 
 
@@ -211,36 +239,6 @@ var examplePackage1 = [
     }
 ];
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 var examplePackage2 = [
     {
       "poster_path": "/p11Ftd4VposrAzthkhF53ifYZRl.jpg",
@@ -441,25 +439,6 @@ var examplePackage2 = [
     }
 ];
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 var examplePackage3 = [
     {
       "poster_path": "/h5lnhUIS7HwcOBEEOc7coRlhylh.jpg",
@@ -659,25 +638,6 @@ var examplePackage3 = [
       "vote_average": 5.31
     }
 ];
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 var examplePackage4 = [
     {
@@ -879,44 +839,6 @@ var examplePackage4 = [
     }
 ];
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 var examplePackage5 = [
     {
       "poster_path": "/FDcYYHd6IlKj2ZitO9ASE4GlKa.jpg",
@@ -1114,38 +1036,6 @@ var examplePackage5 = [
       "vote_average": 7.83
     }
 ];
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 var examplePackage6 = [
     {
@@ -1346,48 +1236,6 @@ var examplePackage6 = [
       "vote_average": 7
     }
 ];
-
-
-exports.getAllMovies = function() {
-  return examplePackage1.concat(examplePackage2).concat(examplePackage3).concat(examplePackage4).concat(examplePackage5).concat(examplePackage6);
-};
-
-exports.getMovie = function( id ) {
-  return _.find( exports.getAllMovies(), function( movie ) {
-    return movie.id === id;
-  });
-};
-
-exports.getMoviePackage = function( packageNumber ){
-  packageNumber = parseInt(packageNumber);
-  if (packageNumber === 0){                                      //only returns exampleData for now
-    return examplePackage1;
-  } else if (packageNumber === 1){
-    return examplePackage2;
-  } else if (packageNumber === 2){
-    return examplePackage3;
-  } else if (packageNumber === 3){
-    return examplePackage4;
-  } else if (packageNumber === 4){
-    return examplePackage5;
-  } else {
-    return examplePackage6;
-  }
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //THIS IS AN AVERAGE API RETURN FROM THE_MOVIE_DATABASE:
 exports.exampleApiResponse = {

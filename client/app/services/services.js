@@ -120,6 +120,7 @@ angular.module( 'moviematch.services', [] )
       .then( function( response ) {
         return response.data;
       }, function( err ) {
+        console.log('heoeoeoeoeo')
         console.error( err );
       });
     }
