@@ -15,19 +15,12 @@ angular.module('moviematch.movieinput', [])
       });
   };
 
-  // Get movies and assigns them to $scope.searchResults
-  $scope.fetchInTheaters = function() {
-    RequestFactory.movieDB()
-      .then(function(res){
-        var results = JSON.parse(res.data);
-        $scope.searchResults = results.Search;
-      });
-  };
 
   // Adds and removes movies from $scope.movieChoices
   // Assigns error messages if > 5 movies chosen
   $scope.updateMovies = function(add, movie) {
     if (add && $scope.movieChoices.length < 5 ) {
+      // ADD LOGIC TO PREVENT DUPLICATES
       $scope.movieChoices.push(movie);
     } else if (!add) {
       $scope.movieChoices.splice(movie, 1);
@@ -57,8 +50,6 @@ angular.module('moviematch.movieinput', [])
     $uibModalInstance.close($scope.movieChoices);
   };
 
-  // Watch for changes in searchbar for live search
-  $scope.$watch('movieTitle', $scope.fetchSearchResults);
 
   /** POP-UP SPECIFIC FUNCTIONS **/
   $scope.ready = function() {
@@ -68,6 +59,10 @@ angular.module('moviematch.movieinput', [])
   $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');
   };
+  /******************************/
+
+  // Watch for changes in searchbar for live search
+  $scope.$watch('movieTitle', $scope.fetchSearchResults);
 })
 
 .factory('RequestFactory', function($http) {
@@ -78,6 +73,7 @@ angular.module('moviematch.movieinput', [])
       url: '/api/omdb/search/' + movieTitle
     });
   };
+
   // Makes request to movieDB API and returns results in a promise
   var movieDB = function() {
     return $http({
@@ -85,6 +81,7 @@ angular.module('moviematch.movieinput', [])
       url: '/api/movieDB/'
     });
   };
+
   // Makes request to add movies to database and returns nothing
   var addMovies = function(data) {
     return $http({
