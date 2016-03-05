@@ -9,7 +9,7 @@
       see the buttons at the bottom -->
 
 
-      <div class="poster col-xs-12 center">
+      <div class="poster col-md-6 center">
         <img alt="{{ currMovie.title }} " src="{{ currMovie.movie.poster }}" class = "foto">
 
       </div>
@@ -18,20 +18,24 @@
 
         <p>{{ currMovie.movie.plot }}</p>
 
+
+<!--         <div class="mobile-buttons">
+          <button class="col-xs-4 pull-left btn-mobile visible-xs visible-sm btn-danger" ng-click="no()">NOPE</button>
+          <button class="col-xs-4 pull-right btn-mobile right-mobile visible-xs visible-sm btn-success" ng-click="yes()">YEA!</
+            button>
+          <button class="col-xs-4 pull-center btn-mobile right-mobile visible-xs visible-sm btn-success" ng-click="yes()">YEA!</
+        </div>
+ -->
+
+         </div>
+            <div class="center">
+              <button class="btn btn-danger" ng-click="updateVote(-1)">Nope</button>
+              <button class="btn btn-warning" ng-click="updateVote(0)">Meh</button>
+              <button class="btn btn-success" ng-click="updateVote(1)">Hell Ya</button>
+        </div>
+
       </div>
     </div>
-<!--     <div class="mobile-buttons">
-      <button class="col-xs-4 pull-left btn-mobile visible-xs visible-sm btn-danger" ng-click="no()">NOPE</button>
-      <button class="col-xs-4 pull-right btn-mobile right-mobile visible-xs visible-sm btn-success" ng-click="yes()">YEA!</
-        button>
-      <button class="col-xs-4 pull-center btn-mobile right-mobile visible-xs visible-sm btn-success" ng-click="yes()">YEA!</
-    </div> -->
-</div>
-</div>
-    <div class="laptop-buttons">
-      <button style="" ng-click="updateVote(-1)">NOPENOPENOPE</button>
-      <button style="" ng-click="updateVote(0)">MEH</button>
-      <button style="" ng-click="updateVote(1)">HELLYEA!</button>
-    </div>
 
-
+  </div>
+</div>
