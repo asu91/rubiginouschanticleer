@@ -14,12 +14,16 @@ module.exports = {
 		});
 
 	},
+	
 
 	post: function(req, res){
-		var session_name = req.body.session_name;
-		var receivedMovies = req.body.movies;
-		newMoviesQuery.insertAll(session_name, receivedMovies, function(){
+
+		var session_id = req.body.session_id;
+		var receivedMoviesArray = req.body.movies;
+		console.log(req.body.session_id,'<--------------------------------------------------------->>>')
+		newMoviesQuery.insertAll(req.body.session_id, req.body.movies, function(){
 			console.log("data received");
+			res.send('HI THERE');
 		});
 	}	
 

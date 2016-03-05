@@ -2,7 +2,7 @@ var helpers = require( '../config/helpers' );
 var Vote = require( './votes' );
 var Session_User = require( '../sessions_users/sessions_users' );
 var mController = require( '../movies/moviesController' );
-var Session = require( '../sessions/sessions' );
+var Session = require( '../sessions/sessions' ).Session;
 var User = require( '../users/users' );
 
 var getAllVotes = function() {};

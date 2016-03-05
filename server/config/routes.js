@@ -15,7 +15,7 @@ var parser = require('body-parser');
 module.exports = function ( app, express ) {
   /* EXTERNAL MOVIE API CALLS */
   app.get('/api/omdb/search/:movie_title', movieAPIController.omdbSearch);
-  app.get('/api/movieDB/:options', movieAPIController.movieDB);
+  // app.get('/api/movieDB/:options', movieAPIController.omdbSearch);
 
   /* USERS */
   app.get('/api/users', usersController.getAllUsers );
@@ -41,7 +41,7 @@ module.exports = function ( app, express ) {
   /* SESSIONS_USERS */
   app.get('/api/sessions/users/:sessionName', sessions_usersController.getUsersInOneSession );
   app.get('/api/sessions/:sessionName', sessionsController.getSessionByName );
-  app.get('/api/sessions/:session_id/:user_id', sessions_usersController.getSessionUserBySessionAndUser );
+  app.get('/api/sessions/:session_id/match/:user_id', sessions_usersController.getSessionUserBySessionAndUser );
   app.post('/api/sessions/users', sessions_usersController.addOneUser );
 
   /* MATCHING */
@@ -50,7 +50,9 @@ module.exports = function ( app, express ) {
 
   /* GETTING AND POSTING NEW MOVIES TO DATABASE */
   app.get('/api/TODO/:session_name', newMoviesController.get );
-  app.post('/api/movies/TODO',  newMoviesController.post);
+  app.post('/api/moviesTODO', movieAPIController.post);
+  app.post('/api/moviesTODO',  newMoviesController.post);
+
 
 
   // If a request is sent somewhere other than the routes above,

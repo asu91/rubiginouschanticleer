@@ -1,48 +1,36 @@
-var https = require('https');
+var movieAPI = require('./movieAPIRequests');
+var _ = require('underscore');
+var NewMovie = require('../sessions/sessions').NewMovie;
 
 module.exports = {
-  omdbSearch : function(req, res) {
-    var movieTitle = req.params.movie_title;
-    console.log('REQUEST!! movie title: ', movieTitle);
-
-    var options = {
-      host: 'www.omdbapi.com',
-      path: '/?s=' + movieTitle,
-      method: 'GET'
-    };
-
-    externalReq = externalAPI(options, res);
-    externalReq.end();
+  omdbSearch: function (req, res) {
+    movieAPI.omdbSearch(req, res);
   },
 
-  movieDB : function(req, res) {
-    var params = request.params.filter;
+  post: function (req, res) {
+    var session_id = req.body.session_id;
+    var imdb_ids = req.body.movies;
+    console.log(session_id,'session_id', imdb_ids, 'imdb_ids')
+    _.each(imdb_ids, function(id) {
+      movieAPI.omdbFind(id, function (data) {
+        data = JSON.parse(data);
+        var movie = {
+          title: data.Title,
+          poster: data.Poster,
+          plot: data.Plot,
+          votes: 0,
+          year: data.Year,
+          session_id: session_id
+        }
 
-    var options = {
-      host: 'https://api.themoviedb.org/3',
-      path: '?api_key=00668398b30762f2cc8f563e9a8617de' + params,
-      method: 'GET'
-    };
-
-    externalReq = externalAPI(options, res);
-    externalReq.end();
+        NewMovie.findOrCreate({where: movie})
+          .then(function(data) {
+            console.log(data, 'SUCCESS!!!!')
+          })
+          .catch(function(err) {
+            console.error(err);
+          });
+      });
+    });
   }
-};
-
-// Helper function to make external API calls
-function externalAPI(options, response) {
-  return https.request(options, function(res) {
-    res.setEncoding('utf-8');
-
-    var data = '';
-
-    res.on('data', function(chunk) {
-      data += chunk;
-    });
-
-    res.on('end', function() {
-      console.log(data);
-      response.json(data);
-    });
-  });
 }
