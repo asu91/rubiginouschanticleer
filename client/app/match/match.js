@@ -48,6 +48,7 @@ angular.module( 'moviematch.match', [] )
         MatchRequestFactory.getMovies($scope.session.id)
           .then(function(movies) {
             $scope.movies = movies.data;
+            console.log($scope.movies)
             $scope.currMovie.movie = $scope.movies[0];
             $scope.currMovie.index = 0;
           })
