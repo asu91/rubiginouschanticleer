@@ -65,6 +65,9 @@ var addVote = function( req, res ) {
   });
 };
 
+
+
+
 var matchHandler = function() {
     // check if there is a match in current session
     // if so, send socket event to inform users of match

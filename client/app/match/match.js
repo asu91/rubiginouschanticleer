@@ -4,7 +4,7 @@ angular.module( 'moviematch.match', [] )
   $scope.session = {};
   $scope.user = {};
   $scope.movies;
-  $scope.currMovie;
+  $scope.currMovie = {};
 
   $scope.user.name = Auth.getUserName();
 
@@ -29,6 +29,7 @@ angular.module( 'moviematch.match', [] )
     } else {
       loadNextMovie();
     }
+
   };
 
   // Listen for the signal to redirect to a 'match found' page.
@@ -38,21 +39,21 @@ angular.module( 'moviematch.match', [] )
   });
 
   //as soon as the view is loaded request the first movie-package here
-  $scope.init = function() {        
+  $scope.init = function() {
     // Assign session id 
     Session.getSession()
       .then( function( session ) {
         $scope.session = session;
-    });
+        // Get all movies from session
+        MatchRequestFactory.getMovies($scope.session.id)
+          .then(function(movies) {
+            $scope.movies = movies.data;
+            $scope.currMovie.movie = $scope.movies[0];
+            $scope.currMovie.index = 0;
+          })
+      });
+    };
 
-    // Get all movies from session
-    MatchRequestFactory.getMovies($scope.session.id)
-      .then(function(movies) {
-        $scope.movies = movies;
-        $scope.currMovie.movie = $scope.movies[0];
-        $scope.currMovie.index = 0;
-      })
-  };
 
   $scope.init();
 })
@@ -75,4 +76,9 @@ angular.module( 'moviematch.match', [] )
       url: '/api/movies/' + session_id
     });
   }
+  return {
+    updateVote: updateVote,
+    getMovies: getMovies
+  };
+
 });

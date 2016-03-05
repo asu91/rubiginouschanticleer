@@ -4,28 +4,42 @@ var NewMovie = require('../sessions/sessions').NewMovie;
 
 module.exports = {
 
-	insertAll: function(session_id, movies, callback){
-		console.log("we are in insertAll Query", movies);
-		movies.forEach(function(movie){
-			movie.session_id = session_id;
-			console.log(movie, 'insertAll.movie!!! ', movie.session_id); 
-		});
-		NewMovie.bulkCreate(movies)
-		.then(function(){
-			console.log("movies entered");
-			callback(); 
-		});
-	},
+  insertAll: function(session_id, movies, callback){
+    console.log("we are in insertAll Query", movies);
+    movies.forEach(function(movie){
+      movie.session_id = session_id;
+    });
+    NewMovie.bulkCreate(movies)
+    .then(function(){
+      callback(); 
+    });
+  },
 
-  getMoviesBySession: function(sessionName, callback) {
-  	
-  	NewMovie
-  	  .findAll({
-  	  	where: {session_id: sessionName}
-  	  })
-  	  .then(function(movies){
-  	  	callback(movies); 
-  	  });
+  getMoviesBySession: function(session_id, callback) {
+    
+    NewMovie
+      .findAll({
+        where: {session_id: session_id}
+      })
+      .then(function(movies){
+        callback(movies); 
+      });
+  },
+
+  getMovieById: function(id, vote, callback) {
+    NewMovie.find({where: {
+      id: id
+    }})
+      .then(function(movie) {
+        if(vote === 1) {
+          return movie.increment('votes');
+        } else if (vote === -1) {
+          return movie.decrement('votes');
+        }
+      })
+      .then(function() {
+        callback();
+      })
   }
 
 };

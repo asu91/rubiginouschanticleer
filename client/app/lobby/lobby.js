@@ -70,7 +70,6 @@ angular.module( 'moviematch.lobby', [] )
       modalInstance.result
         .then(function (movieSelection) {
           Socket.emit('ready', {sessionName: $scope.session.sessionName})
-          console.log(movieSelection);
         });
     };
 
